@@ -11,8 +11,13 @@
             "email": "andrieu.travail@gmail.com"
         }
     ],
-    "require-dev": {
-        "certificationy/yaml-linter": "v1.0.1"
+    "autoload": {
+        "psr-4": {
+            "Exam\\Command\\": "Command/"
+        }
+    },
+    "require": {
+        "symfony/yaml": "^6.3",
+        "symfony/console": "^6.3"
     }
 }
-
