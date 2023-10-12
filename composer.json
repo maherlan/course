@@ -3,20 +3,14 @@
     "type": "certificationy-pack",
     "description": "A series of questions to prepare for the certification Symfony2",
     "keywords": ["symfony", "certification", "test", "exam"],
-    "homepage": "http://github.com/certificationy/symfony-pack",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Mickaël Andrieu",
-            "email": "andrieu.travail@gmail.com"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "Exam\\Command\\": "Command/"
         }
     },
     "require": {
+        "php": "^8.1",
         "symfony/yaml": "^6.3",
         "symfony/console": "^6.3"
     }
