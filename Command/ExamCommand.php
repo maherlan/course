@@ -81,7 +81,7 @@ class ExamCommand extends Command
                     $output->writeln('<fg=red> Wrong Input</>');
                 }
             }
-            $answers[] = ['answer' => intval($res), 'question' => $question];
+            $answers[] = ['answer' => $res, 'question' => $question];
         }
 
         $this->showResult($answers, $output, $nbQuestions);
@@ -99,9 +99,10 @@ class ExamCommand extends Command
     private function showQuestion(array $question, OutputInterface $output)
     {
         $output->writeln('<fg=green> Question:' . $question['question'] . '</>');
+        $output->writeln('<fg=blue> Help:' . ($question['help'] ?? '') . '</>');
 
         foreach ($question['answers'] as $i => $answer) {
-            $output->writeln($i . ') ' . $answer['value']);
+            $output->writeln(($i + 1) . ') ' . $answer['value']);
         }
     }
 
@@ -113,7 +114,7 @@ class ExamCommand extends Command
         $input = explode(',', $res);
 
         foreach ($input as $i) {
-            if (!is_numeric($i) || $i >= $size || $i < 0) {
+            if (!is_numeric($i) || $i > $size || $i < 1) {
                 return false;
             }
         }
@@ -134,15 +135,26 @@ class ExamCommand extends Command
 
             foreach ($answer['question']['answers'] as $i => $res) {
                 if ($res['correct']) {
-                    $output->writeln('<fg=green>' . $i . '):' . $res['value'] . '</>');
-                } else {
-                    if (in_array($i, $input)) {
+                    $r = '';
+
+                    if (!in_array($i + 1, $input)) {
                         $correct = false;
+                    }else{
+                        $r = '(♣)';
                     }
-                    $output->writeln('<fg=red>' . $i . '):' . $res['value'] . '</>');
+
+                    $output->writeln('<fg=green>' . ($i+1) . '):' . $res['value'] . $r . '</>');
+                } else {
+                    $r = '';
+
+                    if (in_array($i + 1, $input)) {
+                        $r = '(‡┐)';
+                    }
+                    $output->writeln('<fg=red>' . ($i+1) . '):' . $res['value'] . $r . '</>');
                 }
             }
-            $output->writeln('<fg=blue> you answer:' . $answer['answer'] . '</>');
+            $output->writeln('<fg=blue> you answer was:' . $answer['answer'] . '</>');
+            
             if ($correct) {
                 $score++;
             }
